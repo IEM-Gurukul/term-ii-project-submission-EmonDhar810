@@ -78,7 +78,7 @@ public class LibraryController {
         System.out.println("ERROR: " + e.getMessage());
     }
   }
-
+  
   private void returnBook() {
     int id = getIntInput("Enter Book ID: ");
 
@@ -88,7 +88,7 @@ public class LibraryController {
     } catch (Exception e) {
         System.out.println("ERROR: " + e.getMessage());
     }
-}
+} 
 
     private int getIntInput(String message) {
     while (true) {

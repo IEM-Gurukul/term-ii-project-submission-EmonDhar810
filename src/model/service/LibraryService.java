@@ -1,6 +1,7 @@
 package model.service;
 
 import model.Book;
+import model.LibraryItem;
 import model.repository.BookRepository;
 import model.exception.BookNotFoundException;
 
@@ -13,37 +14,33 @@ public class LibraryService {
     }
 
     public void issueBook(int id) throws BookNotFoundException {
-        Book book = repo.findById(id);
+        LibraryItem item = repo.findById(id);   
 
-        if (book == null) {
+        if (item == null) {
             throw new BookNotFoundException("Book not found");
         }
 
-        if (book.isIssued()) {
+        if (item.isIssued()) {
             throw new RuntimeException("Book already issued");
         }
 
-        book.issue();
+        item.issue();   
     }
 
     public void returnBook(int id) throws BookNotFoundException {
-        Book book = repo.findById(id);
+        LibraryItem item = repo.findById(id);   
 
-        if (book == null) {
+        if (item == null) {
             throw new BookNotFoundException("Book not found");
         }
 
-        book.returnBook();
+        item.returnItem();   
     }
 
     public void showBooks() {
         System.out.println("\n--- Library Books ---");
-        for (Book b : repo.findAll()) {
-            System.out.println(
-                "ID: " + b.getId() +
-                ", Title: " + b.getTitle() +
-                ", Status: " + (b.isIssued() ? "Issued" : "Available")
-            );
+        for (LibraryItem b : repo.findAll()) {
+            b.displayDetails();   
         }
     }
 }

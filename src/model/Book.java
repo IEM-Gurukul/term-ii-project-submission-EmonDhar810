@@ -1,20 +1,17 @@
 package model;
 
-public class Book {
-    private int id;
-    private String title;
-    private boolean issued;
+public class Book extends LibraryItem implements Issuable {
 
     public Book(int id, String title) {
-        this.id = id;
-        this.title = title;
-        this.issued = false;
+        super(id, title);
     }
 
-    public int getId() { return id; }
-    public String getTitle() { return title; }
-    public boolean isIssued() { return issued; }
-
-    public void issue() { issued = true; }
-    public void returnBook() { issued = false; }
+    @Override
+    public void displayDetails() {
+        System.out.println(
+            "ID: " + id +
+            ", Title: " + title +
+            ", Status: " + (issued ? "Issued" : "Available")
+        );
+    }
 }
