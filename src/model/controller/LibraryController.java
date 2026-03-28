@@ -2,6 +2,7 @@ package model.controller;
 
 import model.service.LibraryService;
 import model.Book;
+import model.LibraryItem;
 
 import java.util.Scanner;
 
@@ -18,7 +19,8 @@ public class LibraryController {
             System.out.println("2. Show Books");
             System.out.println("3. Issue Book");
             System.out.println("4. Return Book");
-            System.out.println("5. Exit");
+            System.out.println("5. Search Book");
+            System.out.println("6. Exit");
             System.out.print("Enter choice: ");
 
             int choice = scanner.nextInt();
@@ -43,8 +45,12 @@ public class LibraryController {
                         break;
 
                     case 5:
-                        System.out.println("Exiting...");
-                        return;
+                        searchBook();
+                        break;
+
+                    case 6:
+                        System.out.println("Exiting..."); 
+                        return;  
 
                     default:
                         System.out.println("Invalid choice!");
@@ -56,17 +62,21 @@ public class LibraryController {
         }
     }
 
-    private void addBook() {
-        int id = getIntInput("Enter Book ID: ");
+   private void addBook() {
+    int id = getIntInput("Enter Book ID: ");
 
-        scanner.nextLine(); // clear buffer
+    scanner.nextLine(); // clear buffer
 
-        System.out.print("Enter Book Title: ");
-        String title = scanner.nextLine();
+    System.out.print("Enter Book Title: ");
+    String title = scanner.nextLine();
 
-        service.addBook(new Book(id, title));
+    try {
+        service.addBook(new Book(id, title));  
         System.out.println("Book added successfully!");
+    } catch (Exception e) {                     
+        System.out.println("ERROR: " + e.getMessage());
     }
+}
 
    private void issueBook() {
     int id = getIntInput("Enter Book ID: ");
@@ -89,6 +99,24 @@ public class LibraryController {
         System.out.println("ERROR: " + e.getMessage());
     }
 } 
+
+private void searchBook() {
+    int id = getIntInput("Enter Book ID to search: ");
+
+    try {
+        LibraryItem book = service.searchBook(id);
+
+        System.out.println("\n--- Book Found ---");
+        System.out.println(
+            "ID: " + book.getId() +
+            ", Title: " + book.getTitle() +
+            ", Status: " + (book.isIssued() ? "Issued" : "Available")
+        );
+
+    } catch (Exception e) {
+        System.out.println("ERROR: " + e.getMessage());
+    }
+}
 
     private int getIntInput(String message) {
     while (true) {

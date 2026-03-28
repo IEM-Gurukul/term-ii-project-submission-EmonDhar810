@@ -4,12 +4,13 @@ import model.Book;
 import model.LibraryItem;
 import model.repository.BookRepository;
 import model.exception.BookNotFoundException;
+import model.exception.DuplicateBookException;
 
 public class LibraryService {
 
     private BookRepository repo = new BookRepository();
 
-    public void addBook(Book book) {
+    public void addBook(Book book) throws DuplicateBookException {
         repo.save(book);
     }
 
@@ -43,4 +44,15 @@ public class LibraryService {
             b.displayDetails();   
         }
     }
+
+    public LibraryItem searchBook(int id) throws BookNotFoundException {
+    LibraryItem book = repo.findById(id);
+
+    if (book == null) {
+        throw new BookNotFoundException("Book not found");
+    }
+
+    return book;
+}
+
 }
