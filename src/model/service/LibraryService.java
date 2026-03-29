@@ -1,16 +1,17 @@
 package model.service;
 
-import model.Book;
+
 import model.LibraryItem;
 import model.repository.BookRepository;
+import model.repository.Repository;
 import model.exception.BookNotFoundException;
 import model.exception.DuplicateBookException;
 
 public class LibraryService {
 
-    private BookRepository repo = new BookRepository();
+   private Repository<LibraryItem> repo = new BookRepository();
 
-    public void addBook(Book book) throws DuplicateBookException {
+    public void addBook(LibraryItem book) throws DuplicateBookException {
         repo.save(book);
     }
 

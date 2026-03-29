@@ -3,6 +3,7 @@ package model.controller;
 import model.service.LibraryService;
 import model.Book;
 import model.LibraryItem;
+import model.Magazine;
 
 import java.util.Scanner;
 
@@ -16,11 +17,12 @@ public class LibraryController {
         while (true) {
             System.out.println("\n===== Library Management System =====");
             System.out.println("1. Add Book");
-            System.out.println("2. Show Books");
-            System.out.println("3. Issue Book");
-            System.out.println("4. Return Book");
-            System.out.println("5. Search Book");
-            System.out.println("6. Exit");
+            System.out.println("2. Add Magazine");
+            System.out.println("3. Show Books");
+            System.out.println("4. Issue Book");
+            System.out.println("5. Return Book");
+            System.out.println("6. Search Book");
+            System.out.println("7. Exit");
             System.out.print("Enter choice: ");
 
             int choice = scanner.nextInt();
@@ -33,22 +35,26 @@ public class LibraryController {
                         break;
 
                     case 2:
+                        addMagazine();
+                        break;    
+
+                    case 3:
                         service.showBooks();
                         break;
 
-                    case 3:
+                    case 4:
                         issueBook();
                         break;
 
-                    case 4:
+                    case 5:
                         returnBook();
                         break;
 
-                    case 5:
+                    case 6:
                         searchBook();
                         break;
 
-                    case 6:
+                    case 7:
                         System.out.println("Exiting..."); 
                         return;  
 
@@ -74,6 +80,24 @@ public class LibraryController {
         service.addBook(new Book(id, title));  
         System.out.println("Book added successfully!");
     } catch (Exception e) {                     
+        System.out.println("ERROR: " + e.getMessage());
+    }
+}
+
+    private void addMagazine() {
+    int id = getIntInput("Enter Magazine ID: ");
+
+    scanner.nextLine();
+
+    System.out.print("Enter Magazine Title: ");
+    String title = scanner.nextLine();
+
+    int issueNumber = getIntInput("Enter Issue Number: ");
+
+    try {
+        service.addBook(new Magazine(id, title, issueNumber)); // polymorphism
+        System.out.println("Magazine added successfully!");
+    } catch (Exception e) {
         System.out.println("ERROR: " + e.getMessage());
     }
 }
