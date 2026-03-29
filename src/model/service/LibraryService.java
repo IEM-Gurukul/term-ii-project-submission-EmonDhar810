@@ -1,7 +1,10 @@
 package model.service;
 
 
+import model.Admin;
 import model.LibraryItem;
+import model.Student;
+import model.User;
 import model.repository.BookRepository;
 import model.repository.Repository;
 import model.exception.BookNotFoundException;
@@ -11,33 +14,47 @@ public class LibraryService {
 
    private Repository<LibraryItem> repo = new BookRepository();
 
-    public void addBook(LibraryItem book) throws DuplicateBookException {
-        repo.save(book);
+    public void addBook(LibraryItem book, User user) throws DuplicateBookException {
+
+    if (!(user instanceof Admin)) {
+        throw new RuntimeException("Only Admin can add items!");
     }
 
-    public void issueBook(int id) throws BookNotFoundException {
-        LibraryItem item = repo.findById(id);   
+    repo.save(book);
+}
 
-        if (item == null) {
-            throw new BookNotFoundException("Book not found");
-        }
+    public void issueBook(int id, User user) throws BookNotFoundException {
 
-        if (item.isIssued()) {
-            throw new RuntimeException("Book already issued");
-        }
-
-        item.issue();   
+    if (!(user instanceof Student)) {
+        throw new RuntimeException("Only Students can issue items!");
     }
 
-    public void returnBook(int id) throws BookNotFoundException {
-        LibraryItem item = repo.findById(id);   
+    LibraryItem item = repo.findById(id);   
 
-        if (item == null) {
-            throw new BookNotFoundException("Book not found");
-        }
-
-        item.returnItem();   
+    if (item == null) {
+        throw new BookNotFoundException("Item not found");
     }
+
+    if (item.isIssued()) {
+        throw new RuntimeException("Item already issued");
+    }
+
+    item.issue();   
+}
+    public void returnBook(int id, User user) throws BookNotFoundException {
+
+    if (!(user instanceof Student)) {
+        throw new RuntimeException("Only Students can return items!");
+    }
+
+    LibraryItem item = repo.findById(id);
+
+    if (item == null) {
+        throw new BookNotFoundException("Item not found");
+    }
+
+    item.returnBook();
+}
 
     public void showBooks() {
         System.out.println("\n--- Library Books ---");

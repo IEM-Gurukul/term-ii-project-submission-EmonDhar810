@@ -1,6 +1,6 @@
 package model;
 
-public class Book extends LibraryItem implements Issuable {
+public class Book extends LibraryItem {
 
     public Book(int id, String title) {
         super(id, title);
@@ -11,7 +11,7 @@ public class Book extends LibraryItem implements Issuable {
         System.out.println(
             "ID: " + id +
             ", Title: " + title +
-            ", Status: " + (issued ? "Issued" : "Available")
+            ", Status: " + (isIssued() ? "Issued" : "Available")
         );
     }
 }
